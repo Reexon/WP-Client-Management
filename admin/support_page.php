@@ -30,22 +30,25 @@
                 <td><?php echo $ticket['site_id']; ?></td>
                 <td>
                     <h5>
-                        <?php echo ($ticket['status_id']==0)? '<span class="label label-success">Aperto</span>' : '<span class="label label-danger">Chiuso</span>'; ?>
+                         <span class="label label-success" <?php if ($ticket['status_id']==0) echo "style='display:none;'"; ?>>Aperto</span>
+                         <span class="label label-danger"  <?php if ($ticket['status_id']==1) echo "style='display:none;'"; ?>>Chiuso</span>
                     </h5>
                 </td>
                 <td>
                     <button class="btn btn-primary" data-toggle="modal" data-target="#ticket_<?php echo $ticket['id_ticket'];?>">
                         <i class="fa fa-eye"></i> Visualizza
                    </button>
-                    <!-- bottone di chiusura ticket -->
+                    
+                    <!-- CHIUDI TICKET - bottone di chiusura ticket -->
                     <button class="btn btn-danger" name="ticket_close"
-                            <?php if($ticket['status_id'] == 1) echo "style='display:none'"; ?>
+                            <?php if($ticket['status_id'] == 0) echo "style='display:none'"; ?>
                     >
                         <i class="icon-remove"></i> Chiudi
                    </button>
-                    <!-- bottone di ri-apertura del ticket -->
+                    
+                    <!-- APRI TICKET - bottone di ri-apertura del ticket -->
                     <button class="btn btn-success" name="ticket_open"
-                            <?php if($ticket['status_id'] == 0) echo "style='display:none'"; ?>
+                            <?php if($ticket['status_id'] == 1) echo "style='display:none'"; ?>
                     >
                         <i class="icon-circle-blank"></i> Apri
                    </button>

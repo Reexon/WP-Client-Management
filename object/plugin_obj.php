@@ -73,7 +73,20 @@ class rcam{
       public function show_permission(){
           echo "<div class='wrap'><h2>test</h2>";
           //$this->Zip($_SERVER['DOCUMENT_ROOT']."/", ROOT_PLUGIN."test.zip");
-          echo "</div>";
+          /* Create a file to calculate hash of */
+        echo "09-34-18.zip<br/><br/>";
+        echo "CRC32 FILE: ".hash_file('crc32',BACKUP_FILE_DIR."finishes.it/09-34-18.zip")."<br/>";
+        echo "CRC32 STRING: ".crc32(BACKUP_FILE_DIR."finishes.it/09-34-18.zip")."<br/>";
+        echo "MD5 FILE: ".hash_file('md5',BACKUP_FILE_DIR."finishes.it/09-34-18.zip")."<br/>";
+        echo "MD5 STRING: ".md5(BACKUP_FILE_DIR."finishes.it/09-34-18.zip")."<br/>";
+        
+        $file = "09-31-05.zip";
+        echo "<br/><br/>$file<br/>";
+        echo "CRC32 FILE: ".hash_file('crc32',BACKUP_FILE_DIR."finishes.it/$file")."<br/>";
+        echo "CRC32 STRING: ".crc32(BACKUP_FILE_DIR."finishes.it/$file")."<br/>";
+        echo "MD5 FILE: ".hash_file('md5',BACKUP_FILE_DIR."finishes.it/$file")."<br/>";
+        echo "MD5 STRING: ".md5(BACKUP_FILE_DIR."finishes.it/$file")."<br/>";
+        echo "</div>";
     }
 }
 

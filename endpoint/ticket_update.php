@@ -60,9 +60,17 @@ switch($_POST['action']){
     /**
      * @var $_POST['ticket_id'] 
      *          contiene l'id del ticket da chiudere
-     * @var $_POST['']
      */
     case 'close_ticket':
+        
+        
+    break;
+
+    /**
+     * @var $_POST['ticket_id'] 
+     *          contiene l'id del ticket da aprire
+     */
+    case 'open_ticket':
         
         
     break;

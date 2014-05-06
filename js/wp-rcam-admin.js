@@ -421,6 +421,41 @@ jQuery(document).ready(function(){
        
     });
     
+    
+    jQuery('button[name="ticket_open"]').click(function(){
+
+       /*
+        * prelevo l'id del ticket che devo aprire
+        */
+       var ticket_id = jQuery(this).parent().parent().find('td:first').text();
+       
+       /*
+        * mando il tasto "apertura" in attesa
+        */
+       var btn = jQuery(this);
+       
+        /*
+         * richiesta ajax al server
+         */
+        jQuery.ajax({
+          type: "POST",
+          url: "http://reexon.net/wp-content/plugins/rcam/endpoint/ticket_update.php",
+          data: {ticket_id : ticket_id.trim(),
+                action : "open_ticket"
+                },
+          success: function(msg) {
+              btn.button('reset');
+
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                    btn.button('reset');
+                    alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+                    alert("XHR: "+XMLHttpRequest.readyState);
+                    alert("State: "+XMLHttpRequest.status);
+          }
+        });
+       
+    });
     jQuery('button[name="add_site"]').click(function(e){
         e.preventDefault();
        /*
@@ -445,7 +480,7 @@ jQuery(document).ready(function(){
           data: dataString,
           success: function(msg) {
               btn.button('reset');
-
+              
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) { 
                     btn.button('reset');
