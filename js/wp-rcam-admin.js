@@ -398,6 +398,15 @@ jQuery(document).ready(function(){
         */
        var btn = jQuery(this);
        
+       /*
+        * prendo il riferimento del bottone per l'apertura ticket
+        * che visualizzerà dopo aver fatto scomparire quello di chiusura
+        */
+       var open_button = jQuery(this).parent().find('button[name="ticket_open"]');
+       var close_label = jQuery(this).parent().parent().find('.label-danger');
+       var open_label = jQuery(this).parent().parent().find('.label-success');
+       
+        btn.button('loading');
         /*
          * richiesta ajax al server
          */
@@ -409,7 +418,19 @@ jQuery(document).ready(function(){
                 },
           success: function(msg) {
               btn.button('reset');
-
+              /* quando il bottone di chiusura ha terminato la sua scomparsa,
+               * inizio in fadeIn del bottone di apertura
+               */
+              btn.fadeOut(500,function(){
+                  open_button.fadeIn(500);
+              });
+              /*
+               * quando la label di "Aperto" ha terminato la sua scomparsa,
+               * inizio il fadeIn della label di "Chiuso"
+               */
+              open_label.fadeOut(500,function(){
+                 close_label.fadeIn(500); 
+              });
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) { 
                     btn.button('reset');
@@ -434,6 +455,15 @@ jQuery(document).ready(function(){
         */
        var btn = jQuery(this);
        
+       btn.button('loading');
+       
+       /*
+        * prendo il riferimento del bottone per l'apertura ticket
+        * che visualizzerà dopo aver fatto scomparire quello di chiusura
+        */
+       var close_button = jQuery(this).parent().find('button[name="ticket_close"]');
+       var close_label = jQuery(this).parent().parent().find('.label-danger');
+       var open_label = jQuery(this).parent().parent().find('.label-success');
         /*
          * richiesta ajax al server
          */
@@ -445,6 +475,19 @@ jQuery(document).ready(function(){
                 },
           success: function(msg) {
               btn.button('reset');
+              /* quando il bottone di apertura ha terminato la sua scomparsa,
+               * inizio in fadeIn del bottone di chiusura
+               */
+              btn.fadeOut(500,function(){
+                  close_button.fadeIn(500);
+              });
+              /*
+               * quando la label di "Aperto" ha terminato la sua scomparsa,
+               * inizio il fadeIn della label di "Chiuso"
+               */
+              close_label.fadeOut(500,function(){
+                 open_label.fadeIn(500); 
+              });
 
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) { 
