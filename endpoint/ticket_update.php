@@ -22,6 +22,31 @@ global $wpdb;
  */
 
 switch($_POST['action']){
+    /*
+     * Creo un nuovo ticket
+     * TICKET_TABLE : id_ticket, title, text, open_time, close_time, status_id, site_id, category_id
+     */
+    case 'new_ticket':
+        $site = $wpdb->get_var("SELECT id_site FROM ".TABLE_SITE." WHERE url='http://".$_POST['site']."'" );
+        $wpdb->insert( 
+                    TABLE_TICKET, 
+                        array( 
+                                'title'         => $_POST['title'],
+                                'text'          => $_POST['text'],
+                                'status_id'     => 1,
+                                'site_id'       => $site,
+                                'category_id'   => $_POST['category_id']
+                        ), 
+                        array( 
+                                '%s', 
+                                '%s',
+                                '%d',
+                                '%s',
+                                '%d'
+                        )
+                    );
+    break;
+
     /**
      * @var $_POST['ticket_id']
      *          contiene l'id del ticket a cui aggiungere la risposta
@@ -44,7 +69,7 @@ switch($_POST['action']){
                 array( 
                         '%d', 
                         '%s',
-                        '%d',
+                        '%d'
                 )
             );
         /*
@@ -58,11 +83,39 @@ switch($_POST['action']){
     break;
     
     /**
+     * @var $_POST['ticket_id']
+     *          contiene l'id del ticket a cui il cliente sta aggiungendo una risposta
+     * @var $_POST['text']
+     *          il testo della risposta da aggiungere
+     * @var $_POST['site']
+     *          contiene l'url del sito che sta facendo richiesta di aggiunta risposta
+     */
+    case 'add_answer_client':
+        $wpdb->insert( 
+                    TABLE_TICKET_ANSWER, 
+                        array( 
+                                'ticket_id' => $_POST['ticket_id'], 
+                                'answer_text' => $_POST['text'],
+                        ), 
+                        array( 
+                                '%d', 
+                                '%s'
+                        )
+                    );
+    break;
+
+    /**
      * @var $_POST['ticket_id'] 
      *          contiene l'id del ticket da chiudere
      */
     case 'close_ticket':
         
+        $wpdb->update(TABLE_TICKET,
+                    array('status_id' => 0),
+                    array('id_ticket' => $_POST['ticket_id']),
+                    array ( '%d' ),
+                    array ( '%d' )
+                );
         
     break;
 
@@ -71,8 +124,12 @@ switch($_POST['action']){
      *          contiene l'id del ticket da aprire
      */
     case 'open_ticket':
-        
-        
+        $wpdb->update(TABLE_TICKET,
+                    array('status_id' => 1),
+                    array('id_ticket' => $_POST['ticket_id']),
+                    array ( '%d' ),
+                    array ( '%d' )
+        );
     break;
 }
 
